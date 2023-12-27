@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import { IUser } from '../types/types'
 
-interface IUser { 
-    firstName: string,
-    lastName: string,
-    userName: string,
-    password: string,
-    email:string,
-    mobile: number | null
-}
+// interface IUser { 
+//     firstName: string,
+//     lastName: string,
+//     userName: string,
+//     password: string,
+//     email:string,
+//     mobile: number | null
+// }
 
 const UserSignup = () => {
     const [user, setUser] = useState<IUser>({
