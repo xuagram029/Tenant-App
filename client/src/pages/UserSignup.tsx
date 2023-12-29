@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import axios from 'axios'
+import axios, { AxiosError,} from 'axios'
 import { IUser } from '../types/types'
 
 // interface IUser { 
@@ -27,19 +27,35 @@ const UserSignup = () => {
         console.log(user);
     }
 
+    const handleSubmit = async(e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault()
+        try {
+            const res = await axios.post('http://localhost:8000/users', user);
+            console.log(res.data.message);
+          } catch (error) {
+            const customError = error as AxiosError<{ message?: string }>;
+            console.log(customError?.response?.data?.message || "An unknown error occurred");
+          }
+    }
 
   return (
     <>
         <div className='w-screen h-screen flex justify-center items-center'>
-            <div className='flex flex-col h-[85%] w-1/3 px-10 py-8 rounded-md border border-black'>
+            <div className='flex flex-col h-[90%] w-1/3 px-10 py-8 rounded-md border border-black'>
                 <div>
                     <h1 className='font-medium text-xl mb-4'>Create New Account</h1>
                 </div>
                 <div className='flex flex-col'>
-                    <label htmlFor="firstname">First Name</label>
-                    <input onChange={handleChange} name='firstName' className='w-full border border-black p-2 rounded-md mb-3' id='firstname' type="text" />
-                    <label htmlFor="lastname">Last Name</label>
-                    <input onChange={handleChange} name='lastName' className='w-full border border-black p-2 rounded-md mb-3' id='lastname' type="text" />
+                    <div className='flex justify-center gap-4'>
+                        <div className=''>
+                            <label htmlFor="firstname">First Name</label>
+                            <input onChange={handleChange} name='firstName' className='w-full border border-black p-2 rounded-md mb-3' id='firstname' type="text" />
+                        </div>
+                        <div className=''>
+                            <label htmlFor="lastname">Last Name</label>
+                            <input onChange={handleChange} name='lastName' className='w-full border border-black p-2 rounded-md mb-3' id='lastname' type="text" />
+                        </div>
+                    </div>
                     <label htmlFor="username">Username</label>
                     <input onChange={handleChange} name='userName' className='w-full border border-black p-2 rounded-md mb-3' id='username' type="text" />
                     <label htmlFor="password">Password</label>
@@ -48,7 +64,7 @@ const UserSignup = () => {
                     <input onChange={handleChange} name='email' className='w-full border border-black p-2 rounded-md mb-3' id='email' type="text" />
                     <label htmlFor="mobile">Mobile</label>
                     <input onChange={handleChange} name='mobile' className='w-full border border-black p-2 rounded-md mb-8' id='mobile' type="text" />
-                    <button className='w-full border border-black p-3 rounded-md mb-3 hover:bg-dark hover:text-primary'>Sign Up</button>
+                    <button onClick={handleSubmit} className='w-full border border-black p-3 rounded-md mb-3 hover:bg-dark hover:text-primary'>Sign Up</button>
                 </div>
             </div>
         </div>
