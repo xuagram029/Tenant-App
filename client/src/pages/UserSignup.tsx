@@ -2,16 +2,8 @@ import React, { useState } from 'react'
 import axios, { AxiosError,} from 'axios'
 import { IUser } from '../types/types'
 
-// interface IUser { 
-//     firstName: string,
-//     lastName: string,
-//     userName: string,
-//     password: string,
-//     email:string,
-//     mobile: number | null
-// }
-
 const UserSignup = () => {
+    const apiUrl = import.meta.env.VITE_API_URL
     const [user, setUser] = useState<IUser>({
         firstName: '',
         lastName: '',
@@ -30,7 +22,7 @@ const UserSignup = () => {
     const handleSubmit = async(e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
         try {
-            const res = await axios.post('http://localhost:8000/users', user);
+            const res = await axios.post(`${apiUrl}/users`, user);
             console.log(res.data.message);
           } catch (error) {
             const customError = error as AxiosError<{ message?: string }>;

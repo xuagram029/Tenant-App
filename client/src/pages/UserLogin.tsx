@@ -1,5 +1,7 @@
-import React, { ChangeEvent, MouseEvent, useState } from 'react'
+import React, { ChangeEvent, MouseEvent, useContext, useState } from 'react'
 import axios, { AxiosError } from 'axios'
+import { AuthContext } from '../context/AuthContext'
+import { useNavigate } from 'react-router-dom'
 
 interface User { 
   username: string, 
@@ -7,6 +9,10 @@ interface User {
 }
 
 const UserLogin = () => {
+  const navigate = useNavigate()
+  const authcontext = useContext(AuthContext)
+  const apiUrl = import.meta.env.VITE_API_URL
+  const { dispatch } = authcontext || { dispatch: () => {}}
   const [user, setUser] = useState<User>({
     username: '', 
     password: ''
@@ -21,10 +27,13 @@ const UserLogin = () => {
   const handleSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     try {
-      const res = await axios.post('http://localhost:8000/users/login', user)
-      console.log(res.data);
+      dispatch({ type: 'LOGIN_START' })
+      const res = await axios.post(`${apiUrl}/users/login`, user)
+      dispatch({ type: 'LOGIN_SUCCESS', payload: res.data})
+      navigate('/user-home')
     } catch (error ) {
       if(error instanceof AxiosError){
+        dispatch({ type: 'LOGIN_FAIL', payload: error?.response?.data?.error })
         console.log(error?.response?.data?.error);
       }
     }

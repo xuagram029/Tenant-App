@@ -6,7 +6,8 @@ interface User {
   userName: string,
   password: string,
   email:string,
-  mobile: number | null
+  mobile: number | null,
+  resp?: any
 }
 
 interface State { 
@@ -15,11 +16,12 @@ interface State {
   error: string | null
 }
 
-type Action = 
-  {type: 'LOGIN_START'}
-  | {type: 'LOGIN_SUCESS', payload: User}
-  | {type: 'LOGIN_FAIL', payload: string}
-  | {type: 'LOGOUT'}
+type Action =
+  | { type: 'LOGIN_START' }
+  | { type: 'LOGIN_SUCCESS', payload: User }
+  | { type: 'LOGIN_FAIL', payload: string }
+  | { type: 'LOGOUT' };
+
   
 const INITIAL_STATE: State = {
     user: JSON.parse(localStorage.getItem('user') as string) || null,
@@ -31,7 +33,7 @@ interface AuthContextValue extends State {
   dispatch: Dispatch<Action>
 }
 
-const AuthContext = createContext<AuthContextValue | undefined>(undefined)
+export const AuthContext = createContext<AuthContextValue | undefined>(undefined)
 
 const AuthReducer = (state: State, action: Action) => {
   switch(action.type){
@@ -41,7 +43,7 @@ const AuthReducer = (state: State, action: Action) => {
         loading: true,
         error: null
       }
-    case "LOGIN_SUCESS":
+    case "LOGIN_SUCCESS":
       return{
         user: action.payload,
         loading: true,
@@ -50,7 +52,7 @@ const AuthReducer = (state: State, action: Action) => {
     case "LOGIN_FAIL":
       return{
         user: null,
-        loading: true,
+        loading: false,
         error: action.payload
       }
     case "LOGOUT":

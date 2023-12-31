@@ -34,7 +34,6 @@ const registerUser = (req, res) => {
 
 const login = (req, res) => {
     const { username, password } = req.body
-    console.log(username, password);
     if( !username || !password ){
         return res.status(401).json({error: 'Please enter username and password'})
     }

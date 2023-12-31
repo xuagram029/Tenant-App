@@ -1,4 +1,4 @@
-import React, { Dispatch, createContext, ReactNode, useReducer, useEffect } from "react"
+import { createContext, useEffect, useReducer, ReactNode } from "react";
 
 interface User { 
     firstName: string,
@@ -6,76 +6,95 @@ interface User {
     userName: string,
     password: string,
     email:string,
-    mobile: number | null
+    mobile: number | null,
+    resp?: any
 }
 
-interface State { 
-    user: User | null,
-    loading: boolean, 
-    error: string | null
+interface AuthState {
+  user: User | null;
+  loading: boolean;
+  error: string | null;
 }
 
-type Action =
-    {type: 'LOGIN_START'}
-    | {type: 'LOGIN_SUCCESS',payload: User}
-    | {type: 'LOGIN_FAIL',payload: string}
-    | {type: 'LOGOUT'}
-
-const INITIAL_STATE: State = {
-    user: JSON.parse(localStorage.getItem('user') as string) || null,
-    loading: false, 
-    error: null
+interface AuthContextProps {
+  user: User | null;
+  loading: boolean;
+  error: string | null;
+  dispatch: React.Dispatch<AuthAction>;
 }
 
-interface AuthContextValue extends State { 
-    dispatch: Dispatch<Action>
+interface AuthAction {
+  type: string;
+  payload?: User | string; // Payload can be User object or error string
 }
 
-const AuthContext = createContext<AuthContextValue | undefined>(undefined)
+const INITIAL_STATE: AuthState = {
+  user: JSON.parse(localStorage.getItem("user") || "null"),
+  loading: false,
+  error: null,
+};
 
-const AuthReducer = (state: State, action: Action) => {
-    switch(action.type){
-        case "LOGIN_START":
-            return {
-                user: null,
-                loading: true, 
-                error: null
-            }
-        case "LOGIN_SUCCESS": 
-            return { 
-                user: action.payload,
-                loading: false, 
-                error: null
-            }
-        case "LOGIN_FAIL": 
-            return { 
-                user: null,
-                loading: false, 
-                error: action.payload
-            }
-        case "LOGIN_FAIL": 
-            return { 
-                user: null,
-                loading: false, 
-                error: null
-            }
-        default:
-            return state
-    }
+export const AuthContext = createContext<AuthContextProps>({
+  user: null,
+  loading: false,
+  error: null,
+  dispatch: () => {},
+});
+
+const AuthReducer = (state: AuthState, action: AuthAction): AuthState => {
+  switch (action.type) {
+    case "LOGIN_START":
+      return {
+        user: null,
+        loading: true,
+        error: null,
+      };
+    case "LOGIN_SUCCESS":
+      return {
+        user: action.payload as User,
+        loading: false,
+        error: null,
+      };
+    case "LOGIN_FAIL":
+      return {
+        user: null,
+        loading: false,
+        error: action.payload as string,
+      };
+    case "LOGOUT":
+      return {
+        user: null,
+        loading: false,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
+
+interface AuthContextProviderProps {
+  children: ReactNode;
 }
 
-interface AuthContextProviderProps  {
-    children : ReactNode
-}
+export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
+  children,
+}: AuthContextProviderProps) => {
+  const [state, dispatch] = useReducer(AuthReducer, INITIAL_STATE);
 
-export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ children }) => {
-    const [state, dispatch] = useReducer(AuthReducer, INITIAL_STATE);
-  
-    useEffect(() => {
-      localStorage.setItem("user", JSON.stringify(state.user));
-    }, [state.user]);
-  
-    const contextValue: AuthContextValue = { ...state, dispatch };
-  
-    return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
-  };
+  useEffect(() => {
+    localStorage.setItem("user", JSON.stringify(state.user));
+  }, [state.user]);
+
+  return (
+    <AuthContext.Provider
+      value={{
+        user: state.user,
+        loading: state.loading,
+        error: state.error,
+        dispatch,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+};
