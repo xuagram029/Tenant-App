@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-import React from 'react'
-
-const NavBar = () => {
-  return (
-    <div>NavBar</div>
-=======
 import React, { useContext } from 'react'
 import { AuthContext } from '../context/AuthContext'
 
@@ -40,7 +33,6 @@ const NavBar = () => {
             }
         </header>
     </div>
->>>>>>> feature
   )
 }
 
