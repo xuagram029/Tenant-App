@@ -1,10 +1,15 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import axios, { AxiosError,} from 'axios'
 import { IUser } from '../types/types'
+import { AuthContext } from '../context/AuthContext'
+import { useNavigate } from 'react-router-dom'
 
 const UserSignup = () => {
     const apiUrl = import.meta.env.VITE_API_URL
-    const [user, setUser] = useState<IUser>({
+    const authcontext = useContext(AuthContext) || { user: null}
+    const { user } = authcontext
+    const navigate = useNavigate()
+    const [userdata, setUserData] = useState<IUser>({
         firstName: '',
         lastName: '',
         userName: '',
@@ -12,17 +17,22 @@ const UserSignup = () => {
         email:'',
         mobile: null
     })
+    
+    useEffect(() => {
+        if(user){ 
+            navigate('/user-home')
+        }
+    }, [])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target
-        setUser((prev) => ({ ...prev, [name]: value}))
-        console.log(user);
+        setUserData((prev) => ({ ...prev, [name]: value}))
     }
 
     const handleSubmit = async(e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
         try {
-            const res = await axios.post(`${apiUrl}/users`, user);
+            const res = await axios.post(`${apiUrl}/users`, userdata);
             console.log(res.data.message);
           } catch (error) {
             const customError = error as AxiosError<{ message?: string }>;
