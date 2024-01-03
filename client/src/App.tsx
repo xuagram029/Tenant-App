@@ -26,9 +26,9 @@ function App() {
   ]);
 
   return (
-    <>
+    <div className='h-screen scroll-smooth m-0 p-0 box-border relative font-body'>
       <RouterProvider router={router} />
-    </>
+    </div>
   )
 }
 
