@@ -6,6 +6,7 @@ import UserLogin from './pages/UserLogin';
 import UserPage from './pages/UserPage';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
+import AdminSignup from './pages/AdminSignup';
 
 function App() {
   const router = createBrowserRouter([
@@ -26,6 +27,10 @@ function App() {
       element: <AdminLogin />,
     },
     {
+      path: "/admin-signup",
+      element: <AdminSignup />,
+    },
+    {
       path: "/admin-dashboard",
       element: <AdminDashboard />,
     },
@@ -36,7 +41,7 @@ function App() {
   ]);
 
   return (
-    <div className='h-screen scroll-smooth m-0 p-0 box-border relative font-body'>
+    <div className='h-screen scroll-smooth m-0 p-0 box-border relative font-body text-[#1f1f1f]'>
       <RouterProvider router={router} />
     </div>
   )

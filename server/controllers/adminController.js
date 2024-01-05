@@ -17,7 +17,7 @@ const regAdmin = (req, res) => {
     const values = [firstName, lastName, userName, enc_password, email, mobile]
 
     if( !firstName || !lastName || !userName || !password || !email || !mobile ){
-        return res.json({message: 'Please fill all the fields'})
+        return res.status(401).json({message: 'Please fill all the fields'})
     }
 
     db.query('SELECT * FROM admins WHERE admin_username = ?', userName, (err, resp) => {
@@ -34,30 +34,42 @@ const regAdmin = (req, res) => {
 
 const login = (req, res) => { 
     const { username, password } = req.body
-    if( !username, !password ){
+    if( !username || !password ){
         return res.status(401).json({ message: 'Please enter username and password'})
     }
     db.query('SELECT * FROM admins WHERE admin_username = ?', username, (err, resp) => {
         if(err) return res.json(err)
-        if(resp.length > 0) { 
+        if(resp.length > 0){
             const admin = resp[0]
             bcrypt.compare(password, admin.admin_password, (err, data) => {
-                if(err) return res.json(err)
+                if (err) {
+                    console.error("Error during password comparison:", err);
+                    return res.status(500).json({error: "An error occurred during login"});
+                  }
                 if(data){
-                    const token = jwt.sign( 
-                        { id: admin.admin_id, role: admin.admin_role },
+                    const token = jwt.sign(
+                        {id: admin.user_id, role: admin.user_role},
                         process.env.ACCESS_TOKEN_SECRET
-                    )
+                    );
                     res.cookie("token", token, {httpOnly: true});
                     return res.json({resp});
-                }else{
-                    return res.json({ message: 'Username and password does not match'})
+                }else {
+                    return res.status(401).json({error: "Password and username do not match"});
                 }
             })
-        }else{ 
-            return res.status(401).json({ message: 'User does not exist'})
+        }else{
+            return res.status(401).json({error: "user does not exist"})
         }
     })
 }
 
-module.exports = { getAdmin, regAdmin, login }
+const logout = (req, res) => {
+    res.clearCookie("token", {
+      path: "/",
+      domain: "localhost",
+    });
+  
+    res.send("Logged out successfully");
+};
+
+module.exports = { getAdmin, regAdmin, login, logout }

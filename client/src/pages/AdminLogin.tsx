@@ -3,7 +3,7 @@ import { UserLogin } from '../types/types'
 import { AuthContext } from '../context/AuthContext'
 import axios, { AxiosError } from 'axios'
 import { useNavigate } from 'react-router-dom'
-import NavBar from '../components/NavBar'
+import AdminNavBar from '../components/AdminNavBar'
 
 const AdminLogin = () => {
     const authcontext = useContext(AuthContext)|| { user: null, loading: false, error: null, dispatch: () => {} }
@@ -37,7 +37,7 @@ const AdminLogin = () => {
 
   return (
     <div className='h-screen'>
-    <NavBar />
+    <AdminNavBar />
     <div className='flex w-screen h-[85vh] justify-center items-center '>
       <div className='flex flex-col p-14 w-1/3 h-1/w-1/3 border border-black rounded-lg'>
         <label htmlFor="username">USERNAME</label>

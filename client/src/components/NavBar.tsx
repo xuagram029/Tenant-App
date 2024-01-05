@@ -1,12 +1,13 @@
 import React, { useContext,MouseEvent } from 'react'
 import { AuthContext } from '../context/AuthContext'
 import axios, { AxiosError } from 'axios'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const NavBar = () => {
     const url = location.pathname.split('/')[1]
     const apiUrl = import.meta.env.VITE_API_URL
     const authContext = useContext(AuthContext) || { user: null, loading: false, error: null, dispatch: () => {} };
+    const navigate = useNavigate()
 
     const {user, dispatch} = authContext
     let userFullName = ''
@@ -19,6 +20,7 @@ const NavBar = () => {
         try {
             dispatch({ type: 'LOGOUT' })
             const res = await axios.post(`${apiUrl}/users/logout`)
+            navigate('/user-login')
             console.log(res.data.message)
         } catch (error) {
             if(error instanceof AxiosError){

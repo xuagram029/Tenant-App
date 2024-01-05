@@ -13,6 +13,7 @@ app.use(cors());
 
 app.use('/users', require('./routes/user'))
 app.use('/admins', require('./routes/admin'))
+app.use('/bills', require('./routes/payment'))
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
