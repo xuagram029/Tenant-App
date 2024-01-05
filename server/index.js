@@ -12,6 +12,7 @@ app.use(cookieParser());
 app.use(cors());
 
 app.use('/users', require('./routes/user'))
+app.use('/admins', require('./routes/admin'))
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

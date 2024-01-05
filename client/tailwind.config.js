@@ -8,7 +8,8 @@ export default {
     extend: {
       colors: {
         'primary': '#f7f6ff',
-        'dark': '#191919'
+        'dark': '#191919',
+        'btn-dark': '#303030',
       }
     },
     fontFamily: {

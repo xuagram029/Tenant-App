@@ -54,7 +54,7 @@ const UserLogin = () => {
           <input onChange={handleChange} name='username' id='username' type="text" className='w-full border border-black p-2 rounded-md mb-5'/>
           <label htmlFor="password">PASSWORD</label>
           <input onChange={handleChange} name='password' id='password' type="password" className='w-full border border-black p-2 rounded-md mb-8'/>
-          <button onClick={handleSubmit} className='w-full border border-black p-3 rounded-md hover:bg-dark hover:text-primary'>Sign Up</button>
+          <button onClick={handleSubmit} className='w-full border border-black p-3 rounded-md hover:bg-btn-dark hover:text-primary duration-200'>Sign In</button>
         </div>
       </div>
     </div>

@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import NavBar from '../components/NavBar';
-import { IUser } from '../types/types';
 
 const UserPage = () => {
   const authContext = useContext(AuthContext) || { user: null, loading: false, error: null, dispatch: () => {} };
@@ -27,7 +26,6 @@ const UserPage = () => {
         const userUserName = user?.resp[0].user_username || ''
         const userEmail = user?.resp[0].user_email || ''
         const userMobile = user?.resp[0].user_mobile || ''
-        console.log(userId);
         
         setUserData({
           id: userId,
