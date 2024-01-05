@@ -4,6 +4,8 @@ import UserSignup from './pages/UserSignup';
 import ErrorPage from './pages/ErrorPage';
 import UserLogin from './pages/UserLogin';
 import UserPage from './pages/UserPage';
+import AdminLogin from './pages/AdminLogin';
+import AdminDashboard from './pages/AdminDashboard';
 
 function App() {
   const router = createBrowserRouter([
@@ -18,6 +20,14 @@ function App() {
     {
       path: "/user-home",
       element: <UserPage />,
+    },
+    {
+      path: "/admin-login",
+      element: <AdminLogin />,
+    },
+    {
+      path: "/admin-dashboard",
+      element: <AdminDashboard />,
     },
     {
       path: "*",

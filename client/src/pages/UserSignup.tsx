@@ -3,6 +3,7 @@ import axios, { AxiosError,} from 'axios'
 import { IUser } from '../types/types'
 import { AuthContext } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
+import NavBar from '../components/NavBar'
 
 const UserSignup = () => {
     const apiUrl = import.meta.env.VITE_API_URL
@@ -41,8 +42,9 @@ const UserSignup = () => {
     }
 
   return (
-    <>
-        <div className='w-screen h-screen flex justify-center items-center'>
+    <div className='h-screen'>
+        <NavBar/>
+        <div className='w-screen h-full flex justify-center items-center'>
             <div className='flex flex-col h-[90%] w-1/3 px-10 py-8 rounded-md border border-black'>
                 <div>
                     <h1 className='font-medium text-xl mb-4'>Create New Account</h1>
@@ -70,7 +72,7 @@ const UserSignup = () => {
                 </div>
             </div>
         </div>
-    </>
+    </div>
   )
 }
 

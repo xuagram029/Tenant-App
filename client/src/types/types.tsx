@@ -7,3 +7,7 @@ export interface IUser {
     mobile: number | null
 }
 
+export interface UserLogin { 
+    username: string, 
+    password: string
+  }
