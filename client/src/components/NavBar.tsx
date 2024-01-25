@@ -33,15 +33,21 @@ const NavBar = () => {
     <div className='left-0 w-full flex items-center mx-auto p-3 h-20 bg-white rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100'>
         <header className='mx-8 flex justify-between w-full'>
             <div>
-                <h1 className='font-semibold text-xl'>
+                <Link to='/user-home' className='font-semibold text-xl'>
                     TNNT
-                </h1>
+                </Link>
             </div>
+            {
+                user &&
+                 <div className='flex gap-8'>
+                    <Link to='/user-bills'>MY BILLS</Link>
+                 </div>
+            }
             {
                 !user ? 
             <div className='flex gap-8'>
                 
-                <button className='p-2 border border-dark rounded-md text-white bg-dark hover:text-dark hover: hover:bg-white duration-300'><Link to='/user-login'>Login</Link></button>
+                <button className='p-2 border border-dark rounded-md text-white bg-btn-dark hover:text-dark hover: hover:bg-white duration-300'><Link to='/user-login'>Login</Link></button>
                 <button className='p-2 border border-dark rounded-md hover:bg-[#183D3D] hover:text-white duration-300'><Link to='/user-signup'>Signup</Link></button>
             </div>
                 : 

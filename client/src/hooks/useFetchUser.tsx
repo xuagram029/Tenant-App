@@ -21,22 +21,26 @@ const useFetchAdmin = () => {
 
      useEffect(() => {
         if(user){
-            const userId = user?.resp[0]?.user_id
-            const userFirstName = user?.resp[0].user_firstname || ''
-            const userLastName = user?.resp[0].user_lastname || ''
-            const userUserName = user?.resp[0].user_username || ''
-            const userEmail = user?.resp[0].user_email || ''
-            const userMobile = user?.resp[0].user_mobile || ''
-    
-            setUserData({
-                id: userId,
-                firstName: userFirstName,
-                lastName: userLastName,
-                userName: userUserName,
-                password: '',
-                email: userEmail,
-                mobile: userMobile
-            })
+            if(user?.resp[0]?.role === 'user'){
+                const userId = user?.resp[0]?.user_id
+                const userFirstName = user?.resp[0].user_firstname || ''
+                const userLastName = user?.resp[0].user_lastname || ''
+                const userUserName = user?.resp[0].user_username || ''
+                const userEmail = user?.resp[0].user_email || ''
+                const userMobile = user?.resp[0].user_mobile || ''
+        
+                setUserData({
+                    id: userId,
+                    firstName: userFirstName,
+                    lastName: userLastName,
+                    userName: userUserName,
+                    password: '',
+                    email: userEmail,
+                    mobile: userMobile
+                })
+            }else if(user?.resp[0]?.role === 'admin'){
+                navigate('/admin-dashboard')
+            }
          }else{
             navigate('/user-login')
         }

@@ -9,8 +9,7 @@ const UserPage = () => {
   const { user } = authContext;
   const navigate = useNavigate()
   const { userData: data } = useFetchUser()
-  console.log(data)
-
+  
   return (
     <div>
       <NavBar />

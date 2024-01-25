@@ -11,6 +11,14 @@ const getUsers = (req, res) => {
     })
 }
 
+const getUser = (req, res) => {
+    const userId = req.params.id
+    db.query("SELECT * FROM users WHERE user_id = ?", userId, (err, resp) => {
+        if(err) return res.status(500)
+        return res.json(resp)
+    })
+}
+
 const registerUser = (req, res) => {
     const { firstName, lastName, userName, password, email, mobile } = req.body
     const enc_password = bcrypt.hashSync(password, 10)
@@ -74,4 +82,4 @@ const logout = (req, res) => {
     res.send("Logged out successfully");
   };
 
-module.exports ={ registerUser, getUsers, login, logout }
+module.exports ={ registerUser, getUsers, getUser, login, logout }

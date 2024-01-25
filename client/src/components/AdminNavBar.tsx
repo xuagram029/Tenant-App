@@ -38,6 +38,14 @@ const AdminNavBar = () => {
                 </h1>
             </div>
             {
+                user &&
+                 <div className='flex gap-8'>
+                    <Link to='/admin-bills'>USER BILLS</Link>
+                    <Link to='/admin-bills/history'>BILLS HISTORY</Link>
+                    <Link to='/admin/users'>USERS</Link>
+                 </div>
+            }
+            {
                 !user ? 
             <div className='flex gap-8'>
                 
